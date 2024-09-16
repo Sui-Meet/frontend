@@ -16,4 +16,17 @@ const mint = async (photo_blob: string, detail_blob: string) => {
     return tx;
 }
 
-export { mint };
+const like = async (profile: string) => {
+  console.log('test', profile);
+  const tx = new TX();
+    tx.moveCall({
+        target: `${process.env.NEXT_PUBLIC_CONTRACT_PACKAGE}::meet::like_profile`,
+        arguments: [
+          tx.object(profile),
+          tx.object(process.env.NEXT_PUBLIC_CONTRACT_STATE!),
+        ],
+    });
+    return tx;
+}
+
+export { mint, like };

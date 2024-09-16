@@ -16,6 +16,7 @@ import { mint } from '@/contract'
 import { HexColorPicker } from "react-colorful"
 import { ConnectButton, useCurrentAccount, useSignAndExecuteTransaction } from "@mysten/dapp-kit"
 import type { Transaction } from '@mysten/sui/transactions';
+import { useRouter, usePathname } from 'next/navigation';
 
 
 const socialIcons = {
@@ -58,13 +59,15 @@ const predefinedColors = [
 ];
 
 export default function Card() {
+  const pathname = usePathname();
+  const router = useRouter();
   const { mutate: signAndExecuteTransaction } = useSignAndExecuteTransaction();
   const currentAccount = useCurrentAccount();
   const { toast } = useToast()
   const [iconpicker, setIconpicker] = useState<string | null>(null)
   const [customIcon, setCustomIcon] = useState('')
-  const [nickname, setNickname] = useState('')
-  const [about, setAbout] = useState('')
+  const [nickname, setNickname] = useState('Foo Bar')
+  const [about, setAbout] = useState('A Walrus OG.')
   const [avatar, setAvatar] = useState('wnSMTuo7bXMUrqo6knVGb4Bsjmk0ryDrPl2zqwJXb2M')
   const [isLoading, setIsLoading] = useState(false)
   const [isFullScreenLoading, setIsFullScreenLoading] = useState(false)
@@ -181,6 +184,14 @@ export default function Card() {
   }
 
   const handleMint = async () => {
+    if (!currentAccount?.address) {
+      toast({
+        variant: "destructive",
+        title: "Please connect wallet firstly.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      })
+      return;
+    }
     setIsFullScreenLoading(true)
     try {
       const cardData = {
@@ -232,12 +243,13 @@ export default function Card() {
                 console.log("Transaction successful:", result);
                 // setTxDigest(result.digest);
                 // setIsModalOpen(true);
+                router.push('/meet');
               },
               onError: (error) => {
                 console.error("Transaction failed:", error);
                 toast({
                   variant: "destructive",
-                  title: "Rejected from you.",
+                  title: "Transaction failed.",
                   action: <ToastAction altText="Try again">Try again</ToastAction>,
                 })
               }
@@ -270,7 +282,7 @@ export default function Card() {
   }
   
   return (
-    <div className="container grid grid-cols-12 divide-x mx-auto min-h-screen z-10 mt-24">
+    <div className="container grid grid-cols-12 gap-8 mx-auto min-h-screen z-10 mt-24">
       {isFullScreenLoading && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex flex-col items-center justify-center z-50">
           <Loader2 className="h-8 w-8 animate-spin text-white mb-4" />
@@ -282,7 +294,7 @@ export default function Card() {
           </div>
         </div>
       )}
-      <div className="w-full col-span-4 md:pr-8 lg:pr-8 h-[80vh] overflow-y-auto flex justify-center">
+      <div className="w-full col-span-4 h-[80vh] overflow-y-auto flex justify-center rounded-3xl shadow-xl">
         <motion.div 
           className={`bg-white shadow-lg p-6 h-[80vh] overflow-y-auto w-full`} 
           style={{ backgroundColor: backgroundColor, color: textColor }}
@@ -404,7 +416,7 @@ export default function Card() {
           </motion.div>
         </motion.div>
       </div>
-      <div className="w-full col-span-8 bg-white h-[80vh] overflow-y-auto">
+      <div className="w-full col-span-8 bg-white h-[80vh] overflow-y-auto rounded-3xl shadow-xl">
         <div className="p-8 flex justify-between items-center bg-white transition-shadow duration-300 sticky top-0 z-10" id="stickyHeader">
           <h2 className="text-2xl font-bold text-purple-600">Edit Your Card</h2>
           <button onClick={handleMint} className="px-4 py-2 bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 animate-gradient-x text-white rounded-md hover:scale-105 transition-all duration-300">
