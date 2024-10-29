@@ -381,7 +381,7 @@ export default function Meet() {
                     </motion.div>
 
                     <motion.img 
-                      src={currentCard.avatar ? `https://aggregator-devnet.walrus.space/v1/${currentCard.avatar}` : 'https://aggregator-devnet.walrus.space/v1/wnSMTuo7bXMUrqo6knVGb4Bsjmk0ryDrPl2zqwJXb2M'}
+                      src={currentCard.avatar ? `${process.env.NEXT_PUBLIC_WALRUS_AGGREGATOR}/v1/${currentCard.avatar}` : `${process.env.NEXT_PUBLIC_WALRUS_AGGREGATOR}/v1/wnSMTuo7bXMUrqo6knVGb4Bsjmk0ryDrPl2zqwJXb2M`}
                       alt={currentCard.nickname || 'Anonymous'}
                       className="w-24 h-24 rounded-full mb-4 flex-shrink-0"
                       whileHover={{ scale: 1.1 }}

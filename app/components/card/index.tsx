@@ -136,7 +136,7 @@ export default function Card() {
       setIsFullScreenLoading(true)
 
       try {
-        const response = await fetch('https://publisher-devnet.walrus.space/v1/store', {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_WALRUS_PUBLISHER}/v1/store`, {
           method: 'PUT',
           body: file
         })
@@ -205,7 +205,7 @@ export default function Card() {
       }
 
       // 上传Walrus
-      const response = await fetch('https://publisher-devnet.walrus.space/v1/store', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_WALRUS_PUBLISHER}/v1/store`, {
         method: 'PUT',
         body: JSON.stringify(cardData)
       })
