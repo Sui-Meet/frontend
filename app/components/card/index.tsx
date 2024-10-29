@@ -314,7 +314,7 @@ export default function Card() {
               </div>
             ) : avatar ? (
               <motion.img 
-                src={`https://aggregator-devnet.walrus.space/v1/${avatar}`} 
+                src={`${process.env.NEXT_PUBLIC_WALRUS_AGGREGATOR}/v1/${avatar}`} 
                 alt="Avatar" 
                 className="w-full h-full object-cover rounded-full"
                 whileHover={{
@@ -323,7 +323,7 @@ export default function Card() {
               />
             ) : (
               <motion.img 
-                src={`https://aggregator-devnet.walrus.space/v1/wnSMTuo7bXMUrqo6knVGb4Bsjmk0ryDrPl2zqwJXb2M`} 
+                src={`${process.env.NEXT_PUBLIC_WALRUS_AGGREGATOR}/v1/wnSMTuo7bXMUrqo6knVGb4Bsjmk0ryDrPl2zqwJXb2M`} 
                 alt="Avatar" 
                 className="w-full h-full object-cover rounded-full"
                 whileHover={{
